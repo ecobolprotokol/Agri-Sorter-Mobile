@@ -26,13 +26,25 @@ class GradingEngine {
 
     if (finalScore >= 0.8) {
       grade = 'A';
-      reason.addAll(['✓ Kematangan sesuai', '✓ Bentuk sesuai', '✓ Firmness sesuai']);
+      reason.addAll([
+        '✓ Kematangan sesuai',
+        '✓ Bentuk sesuai',
+        '✓ Firmness sesuai',
+      ]);
     } else if (finalScore >= 0.5) {
       grade = 'B';
-      reason.addAll(['✓ Bentuk sesuai', '△ Kematangan sedang', '✓ Firmness cukup']);
+      reason.addAll([
+        '✓ Bentuk sesuai',
+        '△ Kematangan sedang',
+        '✓ Firmness cukup',
+      ]);
     } else {
       grade = 'REJECT';
-      reason.addAll(['✗ Kematangan di bawah threshold', '✗ Bentuk tidak sesuai', '✗ Firmness terlalu lunak']);
+      reason.addAll([
+        '✗ Kematangan di bawah threshold',
+        '✗ Bentuk tidak sesuai',
+        '✗ Firmness terlalu lunak',
+      ]);
     }
 
     final confidence = (finalScore * 100).clamp(0, 100).toDouble();
@@ -62,7 +74,9 @@ class GradingEngine {
     final colorWeight = 0.6;
     final geometryWeight = 0.4;
 
-    return (colorScore * colorWeight) + (hueScore * 0.2) + (geometryScore * geometryWeight);
+    return (colorScore * colorWeight) +
+        (hueScore * 0.2) +
+        (geometryScore * geometryWeight);
   }
 
   double _firmnessScore(String firmness) {

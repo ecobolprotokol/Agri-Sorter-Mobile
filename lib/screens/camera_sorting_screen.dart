@@ -38,8 +38,8 @@ class _CameraSortingScreenState extends State<CameraSortingScreen> {
       if (commodities.isNotEmpty) {
         _selectedCommodityId = commodities.first.id;
         final first = commodities.first;
-        final hueValue = (first.features['color'] as Map? ?? {})['hue_mean'] as num? ?? 42.5;
-        final geometry = (first.features['geometry'] as Map? ?? {})['circularity'] as num? ?? 0.85;
+        final hueValue =
+            (first.features['color'] as Map? ?? {})['hue_mean'] as num? ?? 42.5;
         _hueMean = hueValue.toDouble();
         _ripePercentage = 75;
         _status = 'Komoditas ${first.name} siap';
@@ -68,7 +68,11 @@ class _CameraSortingScreenState extends State<CameraSortingScreen> {
       commodity: commodity,
       ripePercentage: _ripePercentage,
       hueMean: _hueMean,
-      circularity: ((commodity.features['geometry'] as Map? ?? {})['circularity'] as num? ?? 0.85).toDouble(),
+      circularity:
+          ((commodity.features['geometry'] as Map? ?? {})['circularity']
+                      as num? ??
+                  0.85)
+              .toDouble(),
       firmness: _firmness,
     );
 
@@ -89,7 +93,8 @@ class _CameraSortingScreenState extends State<CameraSortingScreen> {
     if (!mounted) return;
 
     setState(() {
-      _status = 'Grade ${result.grade} • ${result.confidence.toStringAsFixed(1)}%';
+      _status =
+          'Grade ${result.grade} • ${result.confidence.toStringAsFixed(1)}%';
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
@@ -98,10 +103,8 @@ class _CameraSortingScreenState extends State<CameraSortingScreen> {
 
     await Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (_) => SortingResultScreen(
-          result: result,
-          commodity: commodity,
-        ),
+        builder: (_) =>
+            SortingResultScreen(result: result, commodity: commodity),
       ),
     );
   }
@@ -110,11 +113,9 @@ class _CameraSortingScreenState extends State<CameraSortingScreen> {
   Widget build(BuildContext context) {
     final selectedCommodity = _commodities.firstWhere(
       (item) => item.id == _selectedCommodityId,
-      orElse: () => _commodities.isNotEmpty ? _commodities.first : Commodity(
-          id: 'unknown',
-          name: 'Belum ada komoditas',
-          variety: '',
-        ),
+      orElse: () => _commodities.isNotEmpty
+          ? _commodities.first
+          : Commodity(id: 'unknown', name: 'Belum ada komoditas', variety: ''),
     );
 
     return Scaffold(
@@ -133,31 +134,48 @@ class _CameraSortingScreenState extends State<CameraSortingScreen> {
                       borderRadius: BorderRadius.circular(18),
                     ),
                     child: const Center(
-                      child: Icon(Icons.camera_alt_rounded, size: 72, color: Colors.green),
+                      child: Icon(
+                        Icons.camera_alt_rounded,
+                        size: 72,
+                        color: Colors.green,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 20),
                   Text(
                     _status,
-                    style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+                    style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                   const SizedBox(height: 12),
                   DropdownButtonFormField<String>(
-                    value: _selectedCommodityId,
+                    initialValue: _selectedCommodityId,
                     isExpanded: true,
-                    decoration: const InputDecoration(labelText: 'Komoditas aktif'),
+                    decoration: const InputDecoration(
+                      labelText: 'Komoditas aktif',
+                    ),
                     items: _commodities
                         .map(
                           (commodity) => DropdownMenuItem(
                             value: commodity.id,
-                            child: Text('${commodity.name} (${commodity.variety})'),
+                            child: Text(
+                              '${commodity.name} (${commodity.variety})',
+                            ),
                           ),
                         )
                         .toList(),
                     onChanged: (value) {
                       if (value == null) return;
-                      final commodity = _commodities.firstWhere((item) => item.id == value);
-                      final hue = (commodity.features['color'] as Map? ?? {})['hue_mean'] as num? ?? 42.5;
+                      final commodity = _commodities.firstWhere(
+                        (item) => item.id == value,
+                      );
+                      final hue =
+                          (commodity.features['color'] as Map? ??
+                                  {})['hue_mean']
+                              as num? ??
+                          42.5;
                       setState(() {
                         _selectedCommodityId = value;
                         _hueMean = hue.toDouble();
@@ -172,9 +190,17 @@ class _CameraSortingScreenState extends State<CameraSortingScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Visual & firmness', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                          const Text(
+                            'Visual & firmness',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                           const SizedBox(height: 12),
-                          Text('Kematangan visual: ${_ripePercentage.toStringAsFixed(0)}%'),
+                          Text(
+                            'Kematangan visual: ${_ripePercentage.toStringAsFixed(0)}%',
+                          ),
                           Slider(
                             value: _ripePercentage,
                             min: 0,

@@ -22,16 +22,34 @@ class CommodityDetailScreen extends StatelessWidget {
             const SizedBox(height: 16),
             _SummaryCard(title: 'Version', value: commodity.version.toString()),
             _SummaryCard(title: 'Method', value: commodity.method),
-            _SummaryCard(title: 'Grade Labels', value: commodity.grades.keys.join(', ')),
-            _SummaryCard(title: 'Sample Count', value: '${(commodity.calibration['sample_count'] ?? 0)}'),
+            _SummaryCard(
+              title: 'Grade Labels',
+              value: commodity.grades.keys.join(', '),
+            ),
+            _SummaryCard(
+              title: 'Sample Count',
+              value: '${(commodity.calibration['sample_count'] ?? 0)}',
+            ),
             const SizedBox(height: 16),
             Wrap(
               spacing: 8,
               runSpacing: 8,
               children: [
-                ElevatedButton.icon(icon: const Icon(Icons.folder_open_rounded), label: const Text('Dataset'), onPressed: null),
-                ElevatedButton.icon(icon: const Icon(Icons.auto_fix_high_rounded), label: const Text('Kalibrasi'), onPressed: null),
-                ElevatedButton.icon(icon: const Icon(Icons.science_rounded), label: const Text('Test'), onPressed: null),
+                ElevatedButton.icon(
+                  icon: const Icon(Icons.folder_open_rounded),
+                  label: const Text('Dataset'),
+                  onPressed: null,
+                ),
+                ElevatedButton.icon(
+                  icon: const Icon(Icons.auto_fix_high_rounded),
+                  label: const Text('Kalibrasi'),
+                  onPressed: null,
+                ),
+                ElevatedButton.icon(
+                  icon: const Icon(Icons.science_rounded),
+                  label: const Text('Test'),
+                  onPressed: null,
+                ),
               ],
             ),
           ],
@@ -53,7 +71,10 @@ class _SummaryCard extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 12),
       child: ListTile(
         title: Text(title),
-        trailing: Text(value, style: const TextStyle(fontWeight: FontWeight.bold)),
+        trailing: Text(
+          value,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
       ),
     );
   }

@@ -8,7 +8,9 @@ class ExportService {
     try {
       return await getApplicationDocumentsDirectory();
     } catch (_) {
-      final fallback = Directory.systemTemp.createTempSync('agri_sorter_export');
+      final fallback = Directory.systemTemp.createTempSync(
+        'agri_sorter_export',
+      );
       return fallback;
     }
   }
@@ -20,12 +22,16 @@ class ExportService {
     final dir = await _resolveDirectory();
     final file = File('${dir.path}/$fileName.csv');
 
-    final headers = rows.isEmpty ? ['session_id', 'commodity', 'grade', 'count', 'percentage'] : rows.first.keys.toList();
+    final headers = rows.isEmpty
+        ? ['session_id', 'commodity', 'grade', 'count', 'percentage']
+        : rows.first.keys.toList();
     final buffer = StringBuffer();
     buffer.writeln(headers.join(','));
 
     for (final row in rows) {
-      final values = headers.map((key) => '${row[key] ?? ''}'.replaceAll(',', ';')).toList();
+      final values = headers
+          .map((key) => '${row[key] ?? ''}'.replaceAll(',', ';'))
+          .toList();
       buffer.writeln(values.join(','));
     }
 
@@ -39,7 +45,9 @@ class ExportService {
   }) async {
     final dir = await _resolveDirectory();
     final file = File('${dir.path}/$fileName.json');
-    await file.writeAsString(const JsonEncoder.withIndent('  ').convert(payload));
+    await file.writeAsString(
+      const JsonEncoder.withIndent('  ').convert(payload),
+    );
     return file;
   }
 

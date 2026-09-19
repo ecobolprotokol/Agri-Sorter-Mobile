@@ -12,13 +12,17 @@ class SortingRepository {
   Future<List<SortingSession>> fetchSessions() async {
     final db = await databaseService.database;
     final rows = await db.query('sorting_sessions', orderBy: 'started_at DESC');
-    return rows.map((row) => SortingSession.fromJson(Map<String, dynamic>.from(row))).toList();
+    return rows
+        .map((row) => SortingSession.fromJson(Map<String, dynamic>.from(row)))
+        .toList();
   }
 
   Future<List<SortingResult>> fetchResults() async {
     final db = await databaseService.database;
     final rows = await db.query('sorting_results', orderBy: 'timestamp DESC');
-    return rows.map((row) => SortingResult.fromJson(Map<String, dynamic>.from(row))).toList();
+    return rows
+        .map((row) => SortingResult.fromJson(Map<String, dynamic>.from(row)))
+        .toList();
   }
 
   Future<SortingSession> createSession({
@@ -36,15 +40,21 @@ class SortingRepository {
       totalItems: 0,
     );
 
-    await db.insert('sorting_sessions', session.toJson(), conflictAlgorithm: ConflictAlgorithm.replace);
+    await db.insert(
+      'sorting_sessions',
+      session.toJson(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
     return session;
   }
 
-  Future<SortingResult> saveResult({
-    required SortingResult result,
-  }) async {
+  Future<SortingResult> saveResult({required SortingResult result}) async {
     final db = await databaseService.database;
-    await db.insert('sorting_results', result.toJson(), conflictAlgorithm: ConflictAlgorithm.replace);
+    await db.insert(
+      'sorting_results',
+      result.toJson(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
 
     final session = await db.query(
       'sorting_sessions',

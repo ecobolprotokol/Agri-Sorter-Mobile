@@ -10,13 +10,15 @@ class CommodityProfile {
     Map<String, dynamic>? firmness,
     Map<String, dynamic>? calibration,
     this.createdAt,
-  })  : features = features ?? {},
-        grades = grades ?? {'A': {}, 'B': {}, 'REJECT': {}},
-        firmness = firmness ?? {},
-        calibration = calibration ?? {
-          'sample_count': 0,
-          'calibrated_at': DateTime.now().toIso8601String(),
-        };
+  }) : features = features ?? {},
+       grades = grades ?? {'A': {}, 'B': {}, 'REJECT': {}},
+       firmness = firmness ?? {},
+       calibration =
+           calibration ??
+           {
+             'sample_count': 0,
+             'calibrated_at': DateTime.now().toIso8601String(),
+           };
 
   final String id;
   final String name;
@@ -39,10 +41,14 @@ class CommodityProfile {
       version: json['version'] as int? ?? 1,
       method: json['method'] as String? ?? 'hsv_geometry',
       features: Map<String, dynamic>.from(json['features'] as Map? ?? {}),
-      grades: Map<String, dynamic>.from(json['grades'] as Map? ?? {'A': {}, 'B': {}, 'REJECT': {}}),
+      grades: Map<String, dynamic>.from(
+        json['grades'] as Map? ?? {'A': {}, 'B': {}, 'REJECT': {}},
+      ),
       firmness: Map<String, dynamic>.from(json['firmness'] as Map? ?? {}),
       calibration: Map<String, dynamic>.from(json['calibration'] as Map? ?? {}),
-      createdAt: json['createdAt'] != null ? DateTime.tryParse(json['createdAt'] as String) : null,
+      createdAt: json['createdAt'] != null
+          ? DateTime.tryParse(json['createdAt'] as String)
+          : null,
     );
   }
 

@@ -35,9 +35,7 @@ class CalibrationScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return Card(
                     child: ListTile(
-                      leading: CircleAvatar(
-                        child: Text('${index + 1}'),
-                      ),
+                      leading: CircleAvatar(child: Text('${index + 1}')),
                       title: Text(steps[index]),
                     ),
                   );

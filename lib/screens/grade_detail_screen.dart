@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
 class GradeDetailScreen extends StatelessWidget {
-  const GradeDetailScreen({super.key, required this.commodity, required this.grade, required this.count});
+  const GradeDetailScreen({
+    super.key,
+    required this.commodity,
+    required this.grade,
+    required this.count,
+  });
 
   final String commodity;
   final String grade;
@@ -16,14 +21,20 @@ class GradeDetailScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(commodity, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            Text(
+              commodity,
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
             const SizedBox(height: 16),
             _StatRow(label: 'Jumlah', value: count.toString()),
             _StatRow(label: 'Persentase', value: '62.5%'),
             _StatRow(label: 'Avg Confidence', value: '91.2%'),
             _StatRow(label: 'Avg Maturity', value: '87.4%'),
             const SizedBox(height: 20),
-            const Text('Firmness', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+            const Text(
+              'Firmness',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+            ),
             const SizedBox(height: 10),
             const _StatRow(label: 'Firm', value: '78'),
             const _StatRow(label: 'Medium', value: '47'),

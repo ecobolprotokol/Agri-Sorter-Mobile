@@ -6,10 +6,26 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final settings = [
-      _SettingsItem(icon: Icons.location_on_rounded, title: 'Lokasi Operator', value: 'R. Sortir 2'),
-      _SettingsItem(icon: Icons.volume_up_rounded, title: 'Text-to-Speech', value: 'Offline'),
-      _SettingsItem(icon: Icons.dark_mode_rounded, title: 'Tema', value: 'Light'),
-      _SettingsItem(icon: Icons.security_rounded, title: 'Privacy', value: 'Local only'),
+      _SettingsItem(
+        icon: Icons.location_on_rounded,
+        title: 'Lokasi Operator',
+        value: 'R. Sortir 2',
+      ),
+      _SettingsItem(
+        icon: Icons.volume_up_rounded,
+        title: 'Text-to-Speech',
+        value: 'Offline',
+      ),
+      _SettingsItem(
+        icon: Icons.dark_mode_rounded,
+        title: 'Tema',
+        value: 'Light',
+      ),
+      _SettingsItem(
+        icon: Icons.security_rounded,
+        title: 'Privacy',
+        value: 'Local only',
+      ),
     ];
 
     return Scaffold(
@@ -32,7 +48,11 @@ class SettingsScreen extends StatelessWidget {
 }
 
 class _SettingsItem {
-  const _SettingsItem({required this.icon, required this.title, required this.value});
+  const _SettingsItem({
+    required this.icon,
+    required this.title,
+    required this.value,
+  });
 
   final IconData icon;
   final String title;

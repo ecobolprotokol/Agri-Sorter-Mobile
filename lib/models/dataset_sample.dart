@@ -29,7 +29,9 @@ class DatasetSample {
       commodityId: map['commodity_id'] as String? ?? '',
       label: map['label'] as String? ?? 'UNLABELED',
       imagePath: map['image_path'] as String? ?? '',
-      createdAt: map['created_at'] != null ? DateTime.tryParse(map['created_at'] as String) : null,
+      createdAt: map['created_at'] != null
+          ? DateTime.tryParse(map['created_at'] as String)
+          : null,
     );
   }
 }

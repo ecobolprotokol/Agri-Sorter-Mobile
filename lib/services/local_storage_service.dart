@@ -4,7 +4,10 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
 abstract class OfflineStorage {
-  Future<Map<String, dynamic>> readJson(String key, {Map<String, dynamic>? fallback});
+  Future<Map<String, dynamic>> readJson(
+    String key, {
+    Map<String, dynamic>? fallback,
+  });
   Future<void> writeJson(String key, Map<String, dynamic> data);
   Future<List<Map<String, dynamic>>> readCollection(String collectionName);
 }
@@ -27,7 +30,10 @@ class AppLocalStorage implements OfflineStorage {
   }
 
   @override
-  Future<Map<String, dynamic>> readJson(String key, {Map<String, dynamic>? fallback}) async {
+  Future<Map<String, dynamic>> readJson(
+    String key, {
+    Map<String, dynamic>? fallback,
+  }) async {
     final file = await _fileFor(key);
     if (!await file.exists()) {
       return fallback ?? {};
@@ -55,8 +61,12 @@ class AppLocalStorage implements OfflineStorage {
   }
 
   @override
-  Future<List<Map<String, dynamic>>> readCollection(String collectionName) async {
-    final directory = Directory('${(await _rootDirectory()).path}/$collectionName');
+  Future<List<Map<String, dynamic>>> readCollection(
+    String collectionName,
+  ) async {
+    final directory = Directory(
+      '${(await _rootDirectory()).path}/$collectionName',
+    );
     if (!await directory.exists()) {
       return [];
     }

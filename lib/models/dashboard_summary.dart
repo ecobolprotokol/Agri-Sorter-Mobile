@@ -13,11 +13,14 @@ class DashboardSummary {
   final int gradeB;
   final int reject;
 
-  double get gradeAPercentage => totalItems == 0 ? 0 : (gradeA / totalItems) * 100;
+  double get gradeAPercentage =>
+      totalItems == 0 ? 0 : (gradeA / totalItems) * 100;
 
-  double get gradeBPercentage => totalItems == 0 ? 0 : (gradeB / totalItems) * 100;
+  double get gradeBPercentage =>
+      totalItems == 0 ? 0 : (gradeB / totalItems) * 100;
 
-  double get rejectPercentage => totalItems == 0 ? 0 : (reject / totalItems) * 100;
+  double get rejectPercentage =>
+      totalItems == 0 ? 0 : (reject / totalItems) * 100;
 
   factory DashboardSummary.fromResults(List<SortingResult> results) {
     var a = 0;

@@ -22,25 +22,29 @@ class AppRepository {
 
   Future<List<SortingResult>> loadResults() => sorting.fetchResults();
 
-  Future<Commodity> saveCommodity(Commodity commodity) => commodities.create(commodity);
+  Future<Commodity> saveCommodity(Commodity commodity) =>
+      commodities.create(commodity);
 
   Future<SortingSession> createSession({
     required String commodity,
     required String operator,
     required String location,
-  }) =>
-      sorting.createSession(
-        commodity: commodity,
-        operator: operator,
-        location: location,
-      );
+  }) => sorting.createSession(
+    commodity: commodity,
+    operator: operator,
+    location: location,
+  );
 
   Future<SortingResult> addResult({required SortingResult result}) =>
       sorting.saveResult(result: result);
 
   Future<void> addDatasetSample(DatasetSample sample) async {
     final db = await _db.database;
-    await db.insert('dataset_samples', sample.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
+    await db.insert(
+      'dataset_samples',
+      sample.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
   }
 
   Future<List<DatasetSample>> loadDatasetSamples(String commodityId) async {
@@ -52,6 +56,8 @@ class AppRepository {
       orderBy: 'created_at DESC',
     );
 
-    return rows.map((row) => DatasetSample.fromMap(Map<String, dynamic>.from(row))).toList();
+    return rows
+        .map((row) => DatasetSample.fromMap(Map<String, dynamic>.from(row)))
+        .toList();
   }
 }

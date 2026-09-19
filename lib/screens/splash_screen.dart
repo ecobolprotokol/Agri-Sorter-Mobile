@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import '../app.dart';
 import 'main_navigation.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -59,10 +58,7 @@ class _SplashScreenState extends State<SplashScreen> {
               SizedBox(height: 12),
               Text(
                 'Offline Sorting System',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white70,
-                ),
+                style: TextStyle(fontSize: 16, color: Colors.white70),
               ),
               SizedBox(height: 28),
               CircularProgressIndicator(color: Colors.white),

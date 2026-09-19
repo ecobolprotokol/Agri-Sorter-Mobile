@@ -12,9 +12,13 @@ import 'package:agri_sorter_mobile/app.dart';
 void main() {
   testWidgets('Agri sorter app loads dashboard', (WidgetTester tester) async {
     await tester.pumpWidget(const AgriSorterApp());
-    await tester.pumpAndSettle(const Duration(milliseconds: 1800));
 
     expect(find.text('General Agri-Sorter'), findsAtLeastNWidgets(1));
+
+    await tester.pump(const Duration(milliseconds: 1400));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 500));
+
     expect(find.text('Dashboard'), findsAtLeastNWidgets(1));
   });
 }

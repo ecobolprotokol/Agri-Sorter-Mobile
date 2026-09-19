@@ -32,8 +32,12 @@ class SortingSession {
   factory SortingSession.fromJson(Map<String, dynamic> json) {
     return SortingSession(
       id: json['id'] as String? ?? '',
-      startedAt: DateTime.tryParse(json['startedAt'] as String? ?? '') ?? DateTime.now(),
-      finishedAt: json['finishedAt'] != null ? DateTime.tryParse(json['finishedAt'] as String) : null,
+      startedAt:
+          DateTime.tryParse(json['startedAt'] as String? ?? '') ??
+          DateTime.now(),
+      finishedAt: json['finishedAt'] != null
+          ? DateTime.tryParse(json['finishedAt'] as String)
+          : null,
       operator: json['operator'] as String?,
       location: json['location'] as String?,
       commodity: json['commodity'] as String?,

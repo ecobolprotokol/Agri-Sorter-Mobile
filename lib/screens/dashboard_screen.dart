@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../models/dashboard_summary.dart';
-import '../models/sorting_result.dart';
 import '../services/app_repository.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -13,7 +12,12 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   final AppRepository _repository = AppRepository();
-  DashboardSummary _summary = DashboardSummary(totalItems: 0, gradeA: 0, gradeB: 0, reject: 0);
+  DashboardSummary _summary = DashboardSummary(
+    totalItems: 0,
+    gradeA: 0,
+    gradeB: 0,
+    reject: 0,
+  );
   bool _isLoading = true;
 
   @override
@@ -87,7 +91,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   children: [
                     const Text(
                       'Dashboard',
-                      style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 20),
                     GridView.count(
@@ -97,12 +104,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       childAspectRatio: 1.65,
-                      children: stats.map((stat) => _StatCardWidget(stat: stat)).toList(),
+                      children: stats
+                          .map((stat) => _StatCardWidget(stat: stat))
+                          .toList(),
                     ),
                     const SizedBox(height: 20),
                     const Text(
                       'Akses Cepat',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                     const SizedBox(height: 12),
                     GridView.count(
@@ -112,7 +124,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       childAspectRatio: 1.7,
-                      children: actionCards.map((action) => _QuickActionCard(action: action)).toList(),
+                      children: actionCards
+                          .map((action) => _QuickActionCard(action: action))
+                          .toList(),
                     ),
                   ],
                 ),

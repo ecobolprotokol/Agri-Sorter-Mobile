@@ -10,11 +10,16 @@ class Commodity {
     Map<String, dynamic>? firmness,
     Map<String, dynamic>? calibration,
     DateTime? createdAt,
-  })  : features = features ?? {'color': {}, 'geometry': {}},
-        grades = grades ?? {'A': {}, 'B': {}, 'REJECT': {}},
-        firmness = firmness ?? {'FIRM': '1', 'MEDIUM': '2', 'SOFT': '3'},
-        calibration = calibration ?? {'sample_count': 0, 'calibrated_at': (createdAt ?? DateTime.now()).toIso8601String()},
-        createdAt = createdAt ?? DateTime.now();
+  }) : features = features ?? {'color': {}, 'geometry': {}},
+       grades = grades ?? {'A': {}, 'B': {}, 'REJECT': {}},
+       firmness = firmness ?? {'FIRM': '1', 'MEDIUM': '2', 'SOFT': '3'},
+       calibration =
+           calibration ??
+           {
+             'sample_count': 0,
+             'calibrated_at': (createdAt ?? DateTime.now()).toIso8601String(),
+           },
+       createdAt = createdAt ?? DateTime.now();
 
   final String id;
   final String name;
@@ -49,11 +54,21 @@ class Commodity {
       variety: map['variety'] as String? ?? '',
       version: map['version'] as int? ?? 1,
       method: map['method'] as String? ?? 'hsv_geometry',
-      features: Map<String, dynamic>.from(map['features'] as Map? ?? {'color': {}, 'geometry': {}}),
-      grades: Map<String, dynamic>.from(map['grades'] as Map? ?? {'A': {}, 'B': {}, 'REJECT': {}}),
-      firmness: Map<String, dynamic>.from(map['firmness'] as Map? ?? {'FIRM': '1', 'MEDIUM': '2', 'SOFT': '3'}),
-      calibration: Map<String, dynamic>.from(map['calibration'] as Map? ?? {'sample_count': 0}),
-      createdAt: map['created_at'] != null ? DateTime.tryParse(map['created_at'] as String) : DateTime.now(),
+      features: Map<String, dynamic>.from(
+        map['features'] as Map? ?? {'color': {}, 'geometry': {}},
+      ),
+      grades: Map<String, dynamic>.from(
+        map['grades'] as Map? ?? {'A': {}, 'B': {}, 'REJECT': {}},
+      ),
+      firmness: Map<String, dynamic>.from(
+        map['firmness'] as Map? ?? {'FIRM': '1', 'MEDIUM': '2', 'SOFT': '3'},
+      ),
+      calibration: Map<String, dynamic>.from(
+        map['calibration'] as Map? ?? {'sample_count': 0},
+      ),
+      createdAt: map['created_at'] != null
+          ? DateTime.tryParse(map['created_at'] as String)
+          : DateTime.now(),
     );
   }
 }

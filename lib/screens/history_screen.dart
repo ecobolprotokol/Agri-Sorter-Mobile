@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../models/sorting_result.dart';
 import '../models/sorting_session.dart';
 import '../services/app_repository.dart';
 
@@ -43,7 +42,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
               separatorBuilder: (_, _) => const SizedBox(height: 12),
               itemBuilder: (context, index) {
                 final session = _sessions[index];
-                final summary = session.totalItems > 0 ? 'Total: ${session.totalItems} buah' : 'Belum ada hasil';
+                final summary = session.totalItems > 0
+                    ? 'Total: ${session.totalItems} buah'
+                    : 'Belum ada hasil';
 
                 return Card(
                   child: ListTile(
@@ -54,7 +55,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 6),
-                        Text('${session.commodity ?? 'Komoditas'} • ${session.location ?? 'Lokasi'}'),
+                        Text(
+                          '${session.commodity ?? 'Komoditas'} • ${session.location ?? 'Lokasi'}',
+                        ),
                         const SizedBox(height: 4),
                         Text(summary),
                       ],

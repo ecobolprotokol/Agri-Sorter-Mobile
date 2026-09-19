@@ -32,7 +32,9 @@ class _DatasetScreenState extends State<DatasetScreen> {
     if (!mounted) return;
     setState(() {
       _commodities = commodities;
-      _selectedCommodityId = commodities.isNotEmpty ? commodities.first.id : null;
+      _selectedCommodityId = commodities.isNotEmpty
+          ? commodities.first.id
+          : null;
       _isLoading = false;
     });
     if (_selectedCommodityId != null) {
@@ -71,12 +73,19 @@ class _DatasetScreenState extends State<DatasetScreen> {
 
   Future<void> _runCalibration() async {
     if (_selectedCommodityId == null) return;
-    final commodity = _commodities.firstWhere((item) => item.id == _selectedCommodityId);
-    final summary = _calibrationService.summarize(commodity: commodity, samples: _samples);
+    final commodity = _commodities.firstWhere(
+      (item) => item.id == _selectedCommodityId,
+    );
+    final summary = _calibrationService.summarize(
+      commodity: commodity,
+      samples: _samples,
+    );
 
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Kalibrasi selesai: ${summary['sample_count']} sampel')),
+      SnackBar(
+        content: Text('Kalibrasi selesai: ${summary['sample_count']} sampel'),
+      ),
     );
   }
 
@@ -89,9 +98,21 @@ class _DatasetScreenState extends State<DatasetScreen> {
 
     final summary = [
       _Metric(label: 'Total Sample', value: '${_samples.length}'),
-      _Metric(label: 'Label A', value: '${_samples.where((sample) => sample.label.toUpperCase() == 'A').length}'),
-      _Metric(label: 'Label B', value: '${_samples.where((sample) => sample.label.toUpperCase() == 'B').length}'),
-      _Metric(label: 'Afkir', value: '${_samples.where((sample) => sample.label.toUpperCase() == 'REJECT' || sample.label.toUpperCase() == 'AFKIR').length}'),
+      _Metric(
+        label: 'Label A',
+        value:
+            '${_samples.where((sample) => sample.label.toUpperCase() == 'A').length}',
+      ),
+      _Metric(
+        label: 'Label B',
+        value:
+            '${_samples.where((sample) => sample.label.toUpperCase() == 'B').length}',
+      ),
+      _Metric(
+        label: 'Afkir',
+        value:
+            '${_samples.where((sample) => sample.label.toUpperCase() == 'REJECT' || sample.label.toUpperCase() == 'AFKIR').length}',
+      ),
     ];
 
     return Scaffold(
@@ -103,14 +124,18 @@ class _DatasetScreenState extends State<DatasetScreen> {
               child: ListView(
                 children: [
                   DropdownButtonFormField<String>(
-                    value: _selectedCommodityId,
+                    initialValue: _selectedCommodityId,
                     isExpanded: true,
-                    decoration: const InputDecoration(labelText: 'Komoditas aktif'),
+                    decoration: const InputDecoration(
+                      labelText: 'Komoditas aktif',
+                    ),
                     items: _commodities
                         .map(
                           (commodity) => DropdownMenuItem(
                             value: commodity.id,
-                            child: Text('${commodity.name} (${commodity.variety})'),
+                            child: Text(
+                              '${commodity.name} (${commodity.variety})',
+                            ),
                           ),
                         )
                         .toList(),
@@ -125,7 +150,10 @@ class _DatasetScreenState extends State<DatasetScreen> {
                   const SizedBox(height: 16),
                   Text(
                     'Dataset ${selectedCommodity.name}',
-                    style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 16),
                   GridView.count(
@@ -134,7 +162,9 @@ class _DatasetScreenState extends State<DatasetScreen> {
                     physics: const NeverScrollableScrollPhysics(),
                     crossAxisSpacing: 12,
                     mainAxisSpacing: 12,
-                    children: summary.map((item) => _MetricCard(metric: item)).toList(),
+                    children: summary
+                        .map((item) => _MetricCard(metric: item))
+                        .toList(),
                   ),
                   const SizedBox(height: 16),
                   Wrap(
@@ -209,9 +239,15 @@ class _MetricCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(metric.label, style: const TextStyle(fontSize: 12, color: Colors.grey)),
+            Text(
+              metric.label,
+              style: const TextStyle(fontSize: 12, color: Colors.grey),
+            ),
             const SizedBox(height: 8),
-            Text(metric.value, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            Text(
+              metric.value,
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
           ],
         ),
       ),

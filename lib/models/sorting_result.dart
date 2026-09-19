@@ -47,7 +47,9 @@ class SortingResult {
       grade: json['grade'] as String? ?? 'REJECT',
       confidence: (json['confidence'] as num?)?.toDouble() ?? 0,
       firmness: json['firmness'] as String? ?? 'MEDIUM',
-      timestamp: DateTime.tryParse(json['timestamp'] as String? ?? '') ?? DateTime.now(),
+      timestamp:
+          DateTime.tryParse(json['timestamp'] as String? ?? '') ??
+          DateTime.now(),
       ripePercentage: (json['ripePercentage'] as num?)?.toDouble(),
       imagePath: json['imagePath'] as String?,
     );

@@ -36,11 +36,11 @@ dependencies:
   path_provider: ^2.1.6
   camera: ^0.12.1
   sqflite: ^2.4.4
+  sqflite_common_ffi: ^2.3.5
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  sqflite_common_ffi: ^2.3.5
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

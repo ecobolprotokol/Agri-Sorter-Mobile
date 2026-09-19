@@ -14,8 +14,12 @@ class _SortingScreenState extends State<SortingScreen> {
   final AppRepository _repository = AppRepository();
   List<Commodity> _commodities = [];
   String? _selectedCommodityId;
-  final TextEditingController _operatorController = TextEditingController(text: 'Operator');
-  final TextEditingController _locationController = TextEditingController(text: 'R. Sortir 2');
+  final TextEditingController _operatorController = TextEditingController(
+    text: 'Operator',
+  );
+  final TextEditingController _locationController = TextEditingController(
+    text: 'R. Sortir 2',
+  );
 
   @override
   void initState() {
@@ -28,7 +32,9 @@ class _SortingScreenState extends State<SortingScreen> {
     if (!mounted) return;
     setState(() {
       _commodities = commodities;
-      _selectedCommodityId = commodities.isNotEmpty ? commodities.first.id : null;
+      _selectedCommodityId = commodities.isNotEmpty
+          ? commodities.first.id
+          : null;
     });
   }
 
@@ -39,23 +45,42 @@ class _SortingScreenState extends State<SortingScreen> {
 
     final session = await _repository.createSession(
       commodity: _selectedCommodityId!,
-      operator: _operatorController.text.trim().isEmpty ? 'Operator' : _operatorController.text.trim(),
-      location: _locationController.text.trim().isEmpty ? 'R. Sortir 2' : _locationController.text.trim(),
+      operator: _operatorController.text.trim().isEmpty
+          ? 'Operator'
+          : _operatorController.text.trim(),
+      location: _locationController.text.trim().isEmpty
+          ? 'R. Sortir 2'
+          : _locationController.text.trim(),
     );
 
     if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Session dibuat: ${session.id}')),
-    );
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text('Session dibuat: ${session.id}')));
   }
 
   @override
   Widget build(BuildContext context) {
     final statCards = [
-      _InfoTile(label: 'Session', value: '#${DateTime.now().millisecondsSinceEpoch % 100000}'),
-      _InfoTile(label: 'Komoditas', value: _selectedCommodityId ?? 'Belum dipilih'),
-      _InfoTile(label: 'Operator', value: _operatorController.text.trim().isEmpty ? 'Operator' : _operatorController.text.trim()),
-      _InfoTile(label: 'Lokasi', value: _locationController.text.trim().isEmpty ? 'R. Sortir 2' : _locationController.text.trim()),
+      _InfoTile(
+        label: 'Session',
+        value: '#${DateTime.now().millisecondsSinceEpoch % 100000}',
+      ),
+      _InfoTile(
+        label: 'Komoditas',
+        value: _selectedCommodityId ?? 'Belum dipilih',
+      ),
+      _InfoTile(
+        label: 'Operator',
+        value: _operatorController.text.trim().isEmpty
+            ? 'Operator'
+            : _operatorController.text.trim(),
+      ),
+      _InfoTile(
+        label: 'Lokasi',
+        value: _locationController.text.trim().isEmpty
+            ? 'R. Sortir 2'
+            : _locationController.text.trim(),
+      ),
     ];
 
     return Scaffold(
@@ -72,12 +97,19 @@ class _SortingScreenState extends State<SortingScreen> {
                   children: [
                     const Text(
                       'Workflow Hands-Free',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 12),
-                    const Text('START SESSION → Camera Ready → Object Detected → Capture'),
+                    const Text(
+                      'START SESSION → Camera Ready → Object Detected → Capture',
+                    ),
                     const SizedBox(height: 8),
-                    const Text('Visual Analysis → Periksa firmness → Grading → Save Result'),
+                    const Text(
+                      'Visual Analysis → Periksa firmness → Grading → Save Result',
+                    ),
                   ],
                 ),
               ),
@@ -118,7 +150,9 @@ class _SortingScreenState extends State<SortingScreen> {
               physics: const NeverScrollableScrollPhysics(),
               crossAxisSpacing: 12,
               mainAxisSpacing: 12,
-              children: statCards.map((item) => _InfoTileWidget(tile: item)).toList(),
+              children: statCards
+                  .map((item) => _InfoTileWidget(tile: item))
+                  .toList(),
             ),
             const SizedBox(height: 16),
             ElevatedButton.icon(
@@ -163,9 +197,15 @@ class _InfoTileWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(tile.label, style: const TextStyle(fontSize: 12, color: Colors.grey)),
+            Text(
+              tile.label,
+              style: const TextStyle(fontSize: 12, color: Colors.grey),
+            ),
             const SizedBox(height: 8),
-            Text(tile.value, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Text(
+              tile.value,
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
           ],
         ),
       ),
