@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../models/commodity.dart';
+import 'calibration_screen.dart';
+import 'camera_sorting_screen.dart';
+import 'dataset_screen.dart';
 
 class CommodityDetailScreen extends StatelessWidget {
   const CommodityDetailScreen({super.key, required this.commodity});
@@ -38,17 +41,17 @@ class CommodityDetailScreen extends StatelessWidget {
                 ElevatedButton.icon(
                   icon: const Icon(Icons.folder_open_rounded),
                   label: const Text('Dataset'),
-                  onPressed: null,
+                  onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const DatasetScreen())),
                 ),
                 ElevatedButton.icon(
                   icon: const Icon(Icons.auto_fix_high_rounded),
                   label: const Text('Kalibrasi'),
-                  onPressed: null,
+                  onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const CalibrationScreen())),
                 ),
                 ElevatedButton.icon(
                   icon: const Icon(Icons.science_rounded),
                   label: const Text('Test'),
-                  onPressed: null,
+                  onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const CameraSortingScreen())),
                 ),
               ],
             ),

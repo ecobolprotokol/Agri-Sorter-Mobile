@@ -31,9 +31,6 @@ class TtsService {
     }
 
     try {
-      // Offline-safe placeholder: no external platform dependency is required here.
-      // In a real Android app, this can be replaced with a package such as flutter_tts.
-      // The method stays non-throwing so the sorter remains functional offline.
       return;
     } catch (_) {
       return;
