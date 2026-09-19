@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class Commodity {
   Commodity({
     required this.id,
@@ -39,10 +41,10 @@ class Commodity {
       'variety': variety,
       'version': version,
       'method': method,
-      'features': features,
-      'grades': grades,
-      'firmness': firmness,
-      'calibration': calibration,
+      'features': jsonEncode(features),
+      'grades': jsonEncode(grades),
+      'firmness': jsonEncode(firmness),
+      'calibration': jsonEncode(calibration),
       'created_at': createdAt.toIso8601String(),
     };
   }
@@ -54,21 +56,23 @@ class Commodity {
       variety: map['variety'] as String? ?? '',
       version: map['version'] as int? ?? 1,
       method: map['method'] as String? ?? 'hsv_geometry',
-      features: Map<String, dynamic>.from(
-        map['features'] as Map? ?? {'color': {}, 'geometry': {}},
-      ),
-      grades: Map<String, dynamic>.from(
-        map['grades'] as Map? ?? {'A': {}, 'B': {}, 'REJECT': {}},
-      ),
-      firmness: Map<String, dynamic>.from(
-        map['firmness'] as Map? ?? {'FIRM': '1', 'MEDIUM': '2', 'SOFT': '3'},
-      ),
-      calibration: Map<String, dynamic>.from(
-        map['calibration'] as Map? ?? {'sample_count': 0},
-      ),
+      features: _decodeMap(map['features'], {'color': {}, 'geometry': {}}),
+      grades: _decodeMap(map['grades'], {'A': {}, 'B': {}, 'REJECT': {}}),
+      firmness: _decodeMap(map['firmness'], {'FIRM': '1', 'MEDIUM': '2', 'SOFT': '3'}),
+      calibration: _decodeMap(map['calibration'], {'sample_count': 0}),
       createdAt: map['created_at'] != null
           ? DateTime.tryParse(map['created_at'] as String)
           : DateTime.now(),
     );
+  }
+
+  static Map<String, dynamic> _decodeMap(Object? value, Map<String, dynamic> fallback) {
+    if (value is Map) return Map<String, dynamic>.from(value);
+    if (value is String) {
+      try {
+        return Map<String, dynamic>.from(jsonDecode(value) as Map);
+      } catch (_) {}
+    }
+    return fallback;
   }
 }

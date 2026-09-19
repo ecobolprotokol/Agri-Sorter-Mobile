@@ -6,6 +6,7 @@ class GradingResult {
     required this.firmness,
     required this.reason,
     this.uncertain = false,
+    this.visionFeatures = const {},
   });
 
   final String grade;
@@ -14,6 +15,7 @@ class GradingResult {
   final String firmness;
   final List<String> reason;
   final bool uncertain;
+  final Map<String, dynamic> visionFeatures;
 
   Map<String, dynamic> toMap() {
     return {
@@ -23,6 +25,7 @@ class GradingResult {
       'firmness': firmness,
       'reason': reason,
       'uncertain': uncertain,
+      'vision_features': visionFeatures,
     };
   }
 
@@ -34,6 +37,7 @@ class GradingResult {
       firmness: map['firmness'] as String? ?? 'MEDIUM',
       reason: List<String>.from(map['reason'] as List? ?? const []),
       uncertain: map['uncertain'] as bool? ?? false,
+      visionFeatures: Map<String, dynamic>.from(map['vision_features'] as Map? ?? const {}),
     );
   }
 }

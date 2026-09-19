@@ -20,28 +20,28 @@ class SortingSession {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'startedAt': startedAt.toIso8601String(),
-      'finishedAt': finishedAt?.toIso8601String(),
+      'started_at': startedAt.toIso8601String(),
+      'finished_at': finishedAt?.toIso8601String(),
       'operator': operator,
       'location': location,
       'commodity': commodity,
-      'totalItems': totalItems,
+      'total_items': totalItems,
     };
   }
 
   factory SortingSession.fromJson(Map<String, dynamic> json) {
     return SortingSession(
       id: json['id'] as String? ?? '',
-      startedAt:
-          DateTime.tryParse(json['startedAt'] as String? ?? '') ??
+        startedAt:
+          DateTime.tryParse((json['started_at'] ?? json['startedAt']) as String? ?? '') ??
           DateTime.now(),
-      finishedAt: json['finishedAt'] != null
-          ? DateTime.tryParse(json['finishedAt'] as String)
+        finishedAt: (json['finished_at'] ?? json['finishedAt']) != null
+          ? DateTime.tryParse((json['finished_at'] ?? json['finishedAt']) as String)
           : null,
       operator: json['operator'] as String?,
       location: json['location'] as String?,
       commodity: json['commodity'] as String?,
-      totalItems: json['totalItems'] as int? ?? 0,
+      totalItems: (json['total_items'] ?? json['totalItems']) as int? ?? 0,
     );
   }
 }

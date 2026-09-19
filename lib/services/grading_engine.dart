@@ -22,30 +22,25 @@ class GradingEngine {
     final finalScore = visualScore + firmnessScore;
 
     final reason = <String>[];
+    final colorTarget = ((commodity.features['color'] as Map?)?['hue_mean'] as num?)?.toDouble() ?? 42.5;
+    final colorScore = (1 - ((hueMean - colorTarget).abs() / 60)).clamp(0.0, 1.0);
+    final geometryScore = circularity.clamp(0.0, 1.0);
+    final maturityThreshold = _threshold(commodity, 'A', 0.8) * 100;
     String grade;
 
-    if (finalScore >= 0.8) {
+    if (finalScore >= _threshold(commodity, 'A', 0.8)) {
       grade = 'A';
-      reason.addAll([
-        '✓ Kematangan sesuai',
-        '✓ Bentuk sesuai',
-        '✓ Firmness sesuai',
-      ]);
-    } else if (finalScore >= 0.5) {
+    } else if (finalScore >= _threshold(commodity, 'B', 0.5)) {
       grade = 'B';
-      reason.addAll([
-        '✓ Bentuk sesuai',
-        '△ Kematangan sedang',
-        '✓ Firmness cukup',
-      ]);
     } else {
       grade = 'REJECT';
-      reason.addAll([
-        '✗ Kematangan di bawah threshold',
-        '✗ Bentuk tidak sesuai',
-        '✗ Firmness terlalu lunak',
-      ]);
     }
+
+    reason.add(colorScore >= 0.6 && ripePercentage >= maturityThreshold
+        ? '✓ Kematangan dan warna sesuai profile'
+        : '✗ Kematangan atau warna di bawah profile');
+    reason.add(geometryScore >= 0.6 ? '✓ Bentuk sesuai profile' : '✗ Bentuk perlu diperiksa');
+    reason.add(firmness.toUpperCase() == 'SOFT' ? '✗ Firmness terlalu lunak' : '✓ Firmness operator sesuai');
 
     final confidence = (finalScore * 100).clamp(0, 100).toDouble();
 
@@ -58,6 +53,11 @@ class GradingEngine {
       firmness: firmness,
       reason: reason,
       uncertain: uncertain,
+      visionFeatures: {
+        'ripe_percentage': ripePercentage,
+        'hue_mean': hueMean,
+        'circularity': circularity,
+      },
     );
   }
 
@@ -68,15 +68,22 @@ class GradingEngine {
     required Commodity commodity,
   }) {
     final colorScore = (ripePercentage / 100).clamp(0.0, 1.0);
-    final hueScore = (1 - ((hueMean - 42.5).abs() / 60)).clamp(0.0, 1.0);
+    final colorTarget = ((commodity.features['color'] as Map?)?['hue_mean'] as num?)?.toDouble() ?? 42.5;
+    final hueScore = (1 - ((hueMean - colorTarget).abs() / 60)).clamp(0.0, 1.0);
     final geometryScore = circularity.clamp(0.0, 1.0);
 
-    final colorWeight = 0.6;
-    final geometryWeight = 0.4;
+    final weights = commodity.features['weights'] as Map?;
+    final colorWeight = (weights?['color'] as num?)?.toDouble() ?? 0.6;
+    final geometryWeight = (weights?['geometry'] as num?)?.toDouble() ?? 0.4;
 
     return (colorScore * colorWeight) +
         (hueScore * 0.2) +
         (geometryScore * geometryWeight);
+  }
+
+  double _threshold(Commodity commodity, String grade, double fallback) {
+    final value = (commodity.grades[grade] as Map?)?['threshold'];
+    return value is num ? value.toDouble() : fallback;
   }
 
   double _firmnessScore(String firmness) {

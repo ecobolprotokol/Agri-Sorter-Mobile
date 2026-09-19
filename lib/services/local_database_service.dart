@@ -36,7 +36,12 @@ class LocalDatabaseService {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, 'agri_sorter.db');
 
-    return openDatabase(path, version: 1, onCreate: _createDatabase);
+    return openDatabase(
+      path,
+      version: 2,
+      onCreate: _createDatabase,
+      onUpgrade: _upgradeDatabase,
+    );
   }
 
   Future<void> _createDatabase(Database db, int version) async {
@@ -78,7 +83,9 @@ class LocalDatabaseService {
         firmness TEXT,
         timestamp TEXT,
         ripe_percentage REAL,
-        image_path TEXT
+        image_path TEXT,
+        reason TEXT,
+        vision_features TEXT
       )
     ''');
 
@@ -91,5 +98,12 @@ class LocalDatabaseService {
         created_at TEXT
       )
     ''');
+  }
+
+  Future<void> _upgradeDatabase(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion < 2) {
+      await db.execute('ALTER TABLE sorting_results ADD COLUMN reason TEXT');
+      await db.execute('ALTER TABLE sorting_results ADD COLUMN vision_features TEXT');
+    }
   }
 }

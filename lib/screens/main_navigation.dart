@@ -7,6 +7,7 @@ import 'dashboard_screen.dart';
 import 'dataset_screen.dart';
 import 'history_screen.dart';
 import 'real_camera_screen.dart';
+import 'report_screen.dart';
 import 'settings_screen.dart';
 import 'sorting_screen.dart';
 
@@ -20,17 +21,24 @@ class MainNavigation extends StatefulWidget {
 class _MainNavigationState extends State<MainNavigation> {
   int _selectedIndex = 0;
 
-  static const List<Widget> _screens = [
-    DashboardScreen(),
-    SortingScreen(),
-    CameraSortingScreen(),
-    RealCameraScreen(),
-    CommodityScreen(),
-    DatasetScreen(),
-    CalibrationScreen(),
-    HistoryScreen(),
-    SettingsScreen(),
-  ];
+  late final List<Widget> _screens;
+
+  @override
+  void initState() {
+    super.initState();
+    _screens = [
+      DashboardScreen(onNavigate: _onItemTapped),
+      const SortingScreen(),
+      const CameraSortingScreen(),
+      const RealCameraScreen(),
+      const CommodityScreen(),
+      const DatasetScreen(),
+      const CalibrationScreen(),
+      const HistoryScreen(),
+      const ReportScreen(),
+      const SettingsScreen(),
+    ];
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -77,6 +85,10 @@ class _MainNavigationState extends State<MainNavigation> {
           NavigationDestination(
             icon: Icon(Icons.history_rounded),
             label: 'Riwayat',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.article_rounded),
+            label: 'Laporan',
           ),
           NavigationDestination(
             icon: Icon(Icons.settings_rounded),

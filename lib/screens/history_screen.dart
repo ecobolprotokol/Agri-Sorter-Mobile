@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/sorting_session.dart';
 import '../services/app_repository.dart';
+import 'report_screen.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
@@ -33,7 +34,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Riwayat')),
+      appBar: AppBar(
+        title: const Text('Riwayat'),
+        actions: [
+          IconButton(
+            tooltip: 'Buka laporan',
+            onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const ReportScreen())),
+            icon: const Icon(Icons.article_outlined),
+          ),
+        ],
+      ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : ListView.separated(
@@ -48,6 +58,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
                 return Card(
                   child: ListTile(
+                    onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const ReportScreen())),
                     title: Text(
                       session.startedAt.toLocal().toString().split(' ').first,
                     ),

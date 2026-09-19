@@ -31,6 +31,16 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+# Keep the distributable release APK visible to Git while ignoring other build output.
+!/build/
+/build/*
+!/build/app/
+/build/app/*
+!/build/app/outputs/
+/build/app/outputs/*
+!/build/app/outputs/flutter-apk/
+/build/app/outputs/flutter-apk/*
+!/build/app/outputs/flutter-apk/app-release.apk
 /coverage/
 
 # Symbolication related

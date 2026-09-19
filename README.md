@@ -1,6 +1,24 @@
-# agri_sorter_mobile
+# Agri-Sorter Mobile
 
-A new Flutter project.
+Aplikasi Flutter offline untuk sortir komoditas pertanian.
+
+## Build APK
+
+Build release APK:
+
+```bash
+ANDROID_HOME=/tmp/android-sdk \
+ANDROID_SDK_ROOT=/tmp/android-sdk \
+JAVA_HOME=/usr/local/sdkman/candidates/java/21.0.12+1-ms \
+PATH=/usr/local/sdkman/candidates/java/21.0.12+1-ms/bin:$PATH \
+/tmp/flutter_sdk/bin/flutter build apk --release
+```
+
+Hasil build tersedia di:
+
+`build/app/outputs/flutter-apk/app-release.apk`
+
+Konfigurasi Gradle menggunakan heap yang dibatasi di `android/gradle.properties` agar build stabil di development container.
 
 ## Getting Started
 

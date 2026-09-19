@@ -60,4 +60,14 @@ class AppRepository {
         .map((row) => DatasetSample.fromMap(Map<String, dynamic>.from(row)))
         .toList();
   }
+
+  Future<void> deleteDatasetSample(String id) async {
+    final db = await _db.database;
+    await db.delete('dataset_samples', where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<void> updateDatasetSampleLabel({required String id, required String label}) async {
+    final db = await _db.database;
+    await db.update('dataset_samples', {'label': label}, where: 'id = ?', whereArgs: [id]);
+  }
 }

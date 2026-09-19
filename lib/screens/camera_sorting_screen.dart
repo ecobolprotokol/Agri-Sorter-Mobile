@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/commodity.dart';
 import '../models/sorting_result.dart';
+import '../models/sorting_session.dart';
 import '../screens/sorting_result_screen.dart';
 import '../services/app_repository.dart';
 import '../services/grading_engine.dart';
@@ -23,6 +24,7 @@ class _CameraSortingScreenState extends State<CameraSortingScreen> {
   double _ripePercentage = 72;
   double _hueMean = 42.5;
   bool _isLoading = true;
+  SortingSession? _activeSession;
 
   @override
   void initState() {
@@ -58,7 +60,7 @@ class _CameraSortingScreenState extends State<CameraSortingScreen> {
       orElse: () => _commodities.first,
     );
 
-    final session = await _repository.createSession(
+    _activeSession ??= await _repository.createSession(
       commodity: commodity.id,
       operator: 'Operator',
       location: 'R. Sortir 2',
@@ -78,7 +80,7 @@ class _CameraSortingScreenState extends State<CameraSortingScreen> {
 
     final result = SortingResult(
       resultId: 'result_${DateTime.now().millisecondsSinceEpoch}',
-      sessionId: session.id,
+      sessionId: _activeSession!.id,
       commodityId: commodity.id,
       profileVersion: commodity.version,
       grade: resultData.grade,
@@ -86,6 +88,8 @@ class _CameraSortingScreenState extends State<CameraSortingScreen> {
       firmness: resultData.firmness,
       timestamp: DateTime.now(),
       ripePercentage: resultData.ripePercentage,
+      reason: resultData.reason,
+      visionFeatures: resultData.visionFeatures,
     );
 
     await _repository.addResult(result: result);

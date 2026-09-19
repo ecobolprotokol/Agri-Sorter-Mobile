@@ -75,4 +75,14 @@ class SortingRepository {
 
     return result;
   }
+
+  Future<void> finishSession(String sessionId) async {
+    final db = await databaseService.database;
+    await db.update(
+      'sorting_sessions',
+      {'finished_at': DateTime.now().toIso8601String()},
+      where: 'id = ?',
+      whereArgs: [sessionId],
+    );
+  }
 }

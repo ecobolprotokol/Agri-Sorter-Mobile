@@ -4,7 +4,9 @@ import '../models/dashboard_summary.dart';
 import '../services/app_repository.dart';
 
 class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({super.key});
+  const DashboardScreen({super.key, this.onNavigate});
+
+  final ValueChanged<int>? onNavigate;
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
@@ -71,12 +73,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
     ];
 
     final actionCards = [
-      _QuickAction(label: 'Mulai Sortir', icon: Icons.play_arrow_rounded),
-      _QuickAction(label: 'Komoditas', icon: Icons.eco_rounded),
-      _QuickAction(label: 'Dataset', icon: Icons.folder_open_rounded),
-      _QuickAction(label: 'Kalibrasi', icon: Icons.tune_rounded),
-      _QuickAction(label: 'Riwayat', icon: Icons.history_rounded),
-      _QuickAction(label: 'Laporan', icon: Icons.article_rounded),
+      _QuickAction(label: 'Mulai Sortir', icon: Icons.play_arrow_rounded, index: 1),
+      _QuickAction(label: 'Komoditas', icon: Icons.eco_rounded, index: 4),
+      _QuickAction(label: 'Dataset', icon: Icons.folder_open_rounded, index: 5),
+      _QuickAction(label: 'Kalibrasi', icon: Icons.tune_rounded, index: 6),
+      _QuickAction(label: 'Riwayat', icon: Icons.history_rounded, index: 7),
+      _QuickAction(label: 'Laporan', icon: Icons.article_rounded, index: 8),
     ];
 
     return Scaffold(
@@ -125,7 +127,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       physics: const NeverScrollableScrollPhysics(),
                       childAspectRatio: 1.7,
                       children: actionCards
-                          .map((action) => _QuickActionCard(action: action))
+                          .map((action) => _QuickActionCard(action: action, onTap: widget.onNavigate))
                           .toList(),
                     ),
                   ],
@@ -151,10 +153,11 @@ class _StatCard {
 }
 
 class _QuickAction {
-  const _QuickAction({required this.label, required this.icon});
+  const _QuickAction({required this.label, required this.icon, required this.index});
 
   final String label;
   final IconData icon;
+  final int index;
 }
 
 class _StatCardWidget extends StatelessWidget {
@@ -194,15 +197,16 @@ class _StatCardWidget extends StatelessWidget {
 }
 
 class _QuickActionCard extends StatelessWidget {
-  const _QuickActionCard({required this.action});
+  const _QuickActionCard({required this.action, this.onTap});
 
   final _QuickAction action;
+  final ValueChanged<int>? onTap;
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: InkWell(
-        onTap: () {},
+        onTap: () => onTap?.call(action.index),
         borderRadius: BorderRadius.circular(12),
         child: Padding(
           padding: const EdgeInsets.all(16),

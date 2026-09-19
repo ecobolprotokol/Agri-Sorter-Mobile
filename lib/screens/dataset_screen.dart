@@ -54,17 +54,20 @@ class _DatasetScreenState extends State<DatasetScreen> {
   Future<void> _addSample() async {
     if (_selectedCommodityId == null) return;
 
-    final label = await Navigator.of(context).push<String>(
+    final data = await Navigator.of(context).push<Map<String, String>>(
       MaterialPageRoute(builder: (_) => const DatasetFormScreen()),
     );
 
-    if (label == null || label.trim().isEmpty) return;
+    final label = data?['label']?.trim();
+    if (label == null || label.isEmpty) return;
 
     final sample = DatasetSample(
       id: 'sample_${DateTime.now().millisecondsSinceEpoch}',
       commodityId: _selectedCommodityId!,
-      label: label.trim(),
-      imagePath: 'local://sample_${DateTime.now().millisecondsSinceEpoch}.jpg',
+        label: label,
+        imagePath: data?['imagePath']?.trim().isNotEmpty == true
+          ? data!['imagePath']!.trim()
+          : 'local://sample_${DateTime.now().millisecondsSinceEpoch}.jpg',
     );
 
     await _repository.addDatasetSample(sample);
@@ -80,6 +83,20 @@ class _DatasetScreenState extends State<DatasetScreen> {
       commodity: commodity,
       samples: _samples,
     );
+    await _repository.saveCommodity(
+      Commodity(
+        id: commodity.id,
+        name: commodity.name,
+        variety: commodity.variety,
+        version: commodity.version + 1,
+        method: commodity.method,
+        features: commodity.features,
+        grades: commodity.grades,
+        firmness: commodity.firmness,
+        calibration: commodity.calibration,
+        createdAt: commodity.createdAt,
+      ),
+    );
 
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
@@ -87,6 +104,30 @@ class _DatasetScreenState extends State<DatasetScreen> {
         content: Text('Kalibrasi selesai: ${summary['sample_count']} sampel'),
       ),
     );
+  }
+
+  Future<void> _editLabel(DatasetSample sample) async {
+    final controller = TextEditingController(text: sample.label);
+    final label = await showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Kelola label'),
+        content: TextField(controller: controller, autofocus: true),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Batal')),
+          FilledButton(onPressed: () => Navigator.pop(context, controller.text.trim()), child: const Text('Simpan')),
+        ],
+      ),
+    );
+    controller.dispose();
+    if (label == null || label.isEmpty) return;
+    await _repository.updateDatasetSampleLabel(id: sample.id, label: label);
+    await _loadSamples();
+  }
+
+  Future<void> _deleteSample(DatasetSample sample) async {
+    await _repository.deleteDatasetSample(sample.id);
+    await _loadSamples();
   }
 
   @override
@@ -177,12 +218,12 @@ class _DatasetScreenState extends State<DatasetScreen> {
                         label: const Text('+ Tambah Foto'),
                       ),
                       ElevatedButton.icon(
-                        onPressed: () {},
+                        onPressed: _addSample,
                         icon: const Icon(Icons.upload_file_rounded),
                         label: const Text('Import Dataset'),
                       ),
                       OutlinedButton.icon(
-                        onPressed: () {},
+                        onPressed: _samples.isEmpty ? null : () => _editLabel(_samples.first),
                         icon: const Icon(Icons.label_important_rounded),
                         label: const Text('Kelola Label'),
                       ),
@@ -209,6 +250,16 @@ class _DatasetScreenState extends State<DatasetScreen> {
                           leading: const Icon(Icons.image_rounded),
                           title: Text(sample.label),
                           subtitle: Text(sample.imagePath),
+                          trailing: PopupMenuButton<String>(
+                            onSelected: (value) {
+                              if (value == 'edit') _editLabel(sample);
+                              if (value == 'delete') _deleteSample(sample);
+                            },
+                            itemBuilder: (_) => const [
+                              PopupMenuItem(value: 'edit', child: Text('Ubah label')),
+                              PopupMenuItem(value: 'delete', child: Text('Hapus sampel')),
+                            ],
+                          ),
                         ),
                       ),
                     ),
